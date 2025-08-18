@@ -1,14 +1,17 @@
-provider "aws" {
-  region = "us-east-1"
-  
-} 
-resource "aws_instance" "DemoInstance" {
-  ami           = "ami-020cba7c55df1f615" # Example AMI ID, replace with a valid one
-  instance_type = "t2.micro"
-  key_name      = "dockerkey1"
+resource "aws_s3_bucket" "t" {
+    bucket = "my-devops-bucket-shradhesh12345"
+    
+    tags =  {
+        Name = "mydevopsbucket"
+        Environment = "Production"
+        acl = "private" 
+        }
 
-  tags = {
-    Name = "DemoInstance"
-  }
-  
-}
+    }
+    
+    resource "aws_s3_bucket_versioning" "t_versioning" {
+        bucket = aws_s3_bucket.t.id
+        versioning_configuration {
+            status = "Enabled"
+        }
+    }
